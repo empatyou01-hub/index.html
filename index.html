@@ -6,7 +6,6 @@
     <title>HBD Bule!</title>
     <style>
         :root {
-            /* Warna malam yang lebih kaya dengan gradasi */
             --bg-night: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
             --text-color: #fff;
         }
@@ -25,183 +24,84 @@
             position: relative;
         }
 
-        /* --- ORNAMEN LATAR BELAKANG --- */
-
-        /* Bulan Purnama Bersinar */
+        /* --- BACKGROUND --- */
         .moon {
             position: absolute;
-            top: 50px; /* Jarak dari atas */
-            right: 50px; /* Jarak dari kanan */
-            width: 80px;
-            height: 80px;
-            background-color: #fefcd7; /* Warna kuning bulan pucat */
-            border-radius: 50%;
-            /* Efek sinar bulan (Glow) */
-            box-shadow: 
-                0 0 20px 5px rgba(254, 252, 215, 0.5), /* Sinar dalam */
-                0 0 50px 10px rgba(254, 252, 215, 0.3); /* Sinar luar */
-            z-index: 1; /* Di bawah kado */
+            top: 50px; right: 50px; width: 80px; height: 80px;
+            background-color: #fefcd7; border-radius: 50%;
+            box-shadow: 0 0 20px 5px rgba(254, 252, 215, 0.5), 0 0 50px 10px rgba(254, 252, 215, 0.3);
+            z-index: 1;
         }
 
-        /* Bintang-bintang Kecil di Langit */
         .stars-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
                 radial-gradient(1px 1px at 25px 40px, #fff, rgba(0,0,0,0)),
                 radial-gradient(1.5px 1.5px at 70px 90px, #fff, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 150px 60px, #fff, rgba(0,0,0,0)),
                 radial-gradient(2px 2px at 250px 120px, #fff, rgba(0,0,0,0));
-            background-size: 300px 300px; /* Pola berulang */
+            background-size: 300px 300px;
             opacity: 0.4;
             z-index: 0;
         }
 
-        /* --- KONTEN UTAMA --- */
-
-        .container {
-            text-align: center;
-            cursor: pointer;
-            z-index: 10; /* Pastikan di atas bulan dan bintang */
-            position: relative;
+        /* --- CONFETTI STYLE --- */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            z-index: 15;
+            top: -10px;
+            animation: fall linear forwards;
         }
 
-        /* --- KOTAK KADO (DIPERBAIKI) --- */
-        #wrapper {
-            position: relative;
-            transition: all 0.5s ease;
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
         }
 
+        /* --- KADO --- */
+        .container { text-align: center; cursor: pointer; z-index: 10; position: relative; }
+        
+        #wrapper { transition: all 0.5s ease; }
         .gift-box {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            background-color: #d63031; /* Merah kotak kado */
-            margin: 0 auto;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5); /* Bayangan kado */
-            overflow: hidden; /* PENTING: Menjaga pita agar tidak keluar garis kotak */
+            position: relative; width: 120px; height: 120px;
+            background-color: #d63031; margin: 0 auto; border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); overflow: hidden;
         }
-
-        /* Pita Putih Vertikal */
-        .gift-box::before {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 100%;
-            background-color: #ffffff; /* Putih bersih */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1;
-        }
-
-        /* Pita Putih Horizontal */
-        .gift-box::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 20px;
-            background-color: #ffffff;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1;
-        }
-
-        /* Tutup Kado */
+        .gift-box::before { content: ''; position: absolute; width: 20px; height: 100%; background-color: #fff; left: 50%; transform: translateX(-50%); z-index: 1; }
+        .gift-box::after { content: ''; position: absolute; width: 100%; height: 20px; background-color: #fff; top: 50%; transform: translateY(-50%); z-index: 1; }
+        
         .box-lid {
-            position: absolute;
-            top: -15px;
-            left: -5px; /* Sedikit lebih lebar dari kotak */
-            width: 130px;
-            height: 25px;
-            background-color: #d63031;
-            border-radius: 4px;
-            z-index: 5;
-            transition: all 0.5s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            position: absolute; top: -15px; left: -5px; width: 130px; height: 25px;
+            background-color: #d63031; border-radius: 4px; z-index: 5; transition: all 0.5s ease;
         }
 
-        /* --- ANIMASI BUKA KADO --- */
-        .open .box-lid {
-            transform: translateY(-120px) rotate(-20deg);
-            opacity: 0;
-        }
+        .open .box-lid { transform: translateY(-120px) rotate(-20deg); opacity: 0; }
+        .open .gift-box { transform: scale(0.6); opacity: 0; }
 
-        .open .gift-box {
-            transform: scale(0.6);
-            opacity: 0;
-        }
-
-        /* --- KONTEN PESAN --- */
-        .content {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-
+        /* --- CONTENT --- */
+        .content { display: none; opacity: 0; transition: opacity 0.8s ease; }
         .cake-container {
-            position: relative;
-            font-size: 80px;
-            margin-bottom: 15px;
-            display: inline-block;
-            filter: drop-shadow(0 0 15px rgba(255,215,0,0.7)); /* Glow pada kue */
+            position: relative; font-size: 80px; margin-bottom: 15px; display: inline-block;
+            filter: drop-shadow(0 0 15px rgba(255,215,0,0.7));
         }
-
-        /* Api Lilin yang Berkedip */
         .cake-container::before {
-            content: '🔥';
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 30px;
-            animation: flicker 1s infinite alternate;
+            content: '🔥'; position: absolute; top: -15px; left: 50%;
+            transform: translateX(-50%); font-size: 30px; animation: flicker 1s infinite alternate;
         }
+        @keyframes flicker { from { opacity: 0.8; } to { opacity: 1; transform: translateX(-50%) scale(1.1); } }
 
-        @keyframes flicker {
-            from { opacity: 0.8; transform: translateX(-50%) scale(1); }
-            to { opacity: 1; transform: translateX(-50%) scale(1.1); }
-        }
+        h1 { font-size: 1.8rem; margin: 0; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        p { font-size: 1.1rem; color: #dcdcdc; margin: 15px 0 25px 0; }
 
-        h1 {
-            font-size: 1.8rem;
-            margin: 0;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #dcdcdc; /* Abu-abu muda agar nyaman dibaca */
-            margin: 15px 0 25px 0;
-        }
-
-        /* Tombol WhatsApp */
         .wa-btn {
-            display: inline-block;
-            padding: 12px 28px;
-            background-color: #25d366; /* Hijau WA */
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.95rem;
+            display: inline-block; padding: 12px 28px; background-color: #25d366;
+            color: white; text-decoration: none; border-radius: 50px; font-weight: bold;
             box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .wa-btn:active {
-            transform: scale(0.96);
-            box-shadow: 0 2px 8px rgba(37, 211, 102, 0.4);
-        }
-
-        /* Petunjuk Awal */
-        .hint {
-            margin-top: 25px;
-            font-size: 0.85rem;
-            color: #777; /* Gelap di awal */
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
         }
     </style>
 </head>
@@ -214,39 +114,53 @@
         <div id="wrapper">
             <div class="box-lid"></div>
             <div class="gift-box"></div>
-            <p class="hint">TAP UNTUK BUKA</p>
+            <p style="margin-top:25px; font-size:0.85rem; color:#777; letter-spacing:1.5px;">TAP UNTUK BUKA</p>
         </div>
         
         <div class="content" id="messageContent">
             <div class="cake-container">🎂</div>
             <h1>Slamat kepala dua, Bul!</h1>
-            <p>
-                Dah legal nih sekarang. <br>
-                Ditunggu minimal sakura lah ya.
-            </p>
-            <a href="https://wa.me/6281389295689?text=siap%20pir!" class="wa-btn">
-                Bales di sini
-            </a>
+            <p>Dah legal nih sekarang. <br> Sehat dan sukses terus ya!</p>
+            <a href="https://wa.me/6281389295689?text=siap%20pir!" class="wa-btn">Bales di sini</a>
         </div>
     </div>
 
     <script>
+        function createConfetti() {
+            const colors = ['#f2d74e', '#95c3de', '#ff9a91', '#f2ceff', '#a8ff94'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.duration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                confetti.style.opacity = Math.random();
+                document.body.appendChild(confetti);
+                
+                // Hapus elemen setelah animasi selesai
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+
         function openGift() {
             const wrapper = document.getElementById('wrapper');
             const content = document.getElementById('messageContent');
             
-            // Jalankan animasi buka kado
-            wrapper.classList.add('open');
-            
-            // Sembunyikan kado dan munculkan pesan
-            setTimeout(() => {
-                wrapper.style.display = 'none';
-                content.style.display = 'block';
-                // Beri sedikit jeda agar animasi opacity berjalan mulus
+            if (!wrapper.classList.contains('open')) {
+                wrapper.classList.add('open');
+                createConfetti(); // Panggil efek kertas warna-warni
+                
                 setTimeout(() => {
-                    content.style.opacity = '1';
-                }, 50);
-            }, 500); // Harus sama dengan durasi transisi di CSS
+                    wrapper.style.display = 'none';
+                    content.style.display = 'block';
+                    setTimeout(() => {
+                        content.style.opacity = '1';
+                    }, 50);
+                }, 500);
+            }
         }
     </script>
 </body>
