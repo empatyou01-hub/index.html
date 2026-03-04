@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBD Bule!</title>
+    <style>
+        :root {
+            --bg-color: #f4f4f9;
+            --accent-color: #e63946;
+            --text-color: #333;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+
+        .container {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        /* Animasi Kotak Kado */
+        #wrapper {
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .gift-box {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            background-color: var(--accent-color);
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .gift-box::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            background-color: #f1faee;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .gift-box::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background-color: #f1faee;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .box-lid {
+            position: absolute;
+            top: -15px;
+            left: -5px;
+            width: 130px;
+            height: 25px;
+            background-color: var(--accent-color);
+            border-radius: 4px;
+            z-index: 2;
+            transition: all 0.5s ease;
+        }
+
+        /* Efek Buka Kado */
+        .open .box-lid {
+            transform: translateY(-100px) rotate(-15deg);
+            opacity: 0;
+        }
+
+        .open .gift-box {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+        /* Konten Pesan */
+        .content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .cake {
+            font-size: 70px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        /* Tombol WhatsApp */
+        .wa-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #25d366;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .wa-btn:active {
+            transform: scale(0.95);
+        }
+
+        .hint {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" onclick="openGift()">
+        <div id="wrapper">
+            <div class="box-lid"></div>
+            <div class="gift-box"></div>
+            <p class="hint">Tap to open</p>
+        </div>
+        
+        <div class="content" id="messageContent">
+            <div class="cake">🎂</div>
+            <h1>Slamat kepala dua, Bul!</h1>
+            <p>
+                Dah legal nih sekarang. <br>
+                Ditunggu minimal sakura lah ya.
+            </p>
+            <a href="https://wa.me/6281389295689?text=siap%20pir!" class="wa-btn">
+                Bales di sini
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function openGift() {
+            const wrapper = document.getElementById('wrapper');
+            const content = document.getElementById('messageContent');
+            
+            // Jalankan animasi buka
+            wrapper.classList.add('open');
+            
+            // Sembunyikan kado dan munculkan pesan
+            setTimeout(() => {
+                wrapper.style.display = 'none';
+                content.style.display = 'block';
+                setTimeout(() => {
+                    content.style.opacity = '1';
+                }, 50);
+            }, 500);
+        }
+    </script>
+</body>
+</html>
