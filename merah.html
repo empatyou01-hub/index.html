@@ -6,178 +6,96 @@
     <title>HBD Bule!</title>
     <style>
         :root {
-            --bg-night: #1a1a2e; /* Biru tua langit malam */
-            --accent-color: #d4a373; /* Warna hangat emas/coklat */
-            --text-color: #fff; /* Teks putih supaya kelihatan */
-            --candle-fire: #ffd700; /* Warna api lilin emas */
+            /* Gradasi langit malam: dari biru sangat tua ke hitam */
+            --bg-night: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            --text-color: #ffffff;
         }
 
         body {
             margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: var(--bg-night);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-night);
+            font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
             color: var(--text-color);
+            position: relative;
+        }
+
+        /* Efek Bintang-bintang di Background */
+        .stars {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/123163/stars.png') repeat;
+            z-index: 0;
+            opacity: 0.5;
         }
 
         .container {
             text-align: center;
             cursor: pointer;
+            z-index: 1; /* Biar di atas bintang */
         }
 
-        /* Animasi Kotak Kado (Masih sama, cuma warna diubah) */
-        #wrapper {
-            position: relative;
-            transition: all 0.5s ease;
-        }
-
+        #wrapper { transition: all 0.5s ease; }
         .gift-box {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            background-color: #e63946; /* Merah cerah kotak */
-            margin: 0 auto;
-            border-radius: 8px;
+            position: relative; width: 120px; height: 120px;
+            background-color: #e63946; margin: 0 auto; border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-
-        .gift-box::before {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 100%;
-            background-color: #f1faee; /* Pita putih vertikal */
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .gift-box::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 20px;
-            background-color: #f1faee; /* Pita putih horizontal */
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
+        .gift-box::before { content: ''; position: absolute; width: 20px; height: 100%; background-color: #f1faee; left: 50%; transform: translateX(-50%); }
+        .gift-box::after { content: ''; position: absolute; width: 100%; height: 20px; background-color: #f1faee; top: 50%; transform: translateY(-50%); }
         .box-lid {
-            position: absolute;
-            top: -15px;
-            left: -5px;
-            width: 130px;
-            height: 25px;
-            background-color: #e63946;
-            border-radius: 4px;
-            z-index: 2;
-            transition: all 0.5s ease;
+            position: absolute; top: -15px; left: -5px; width: 130px; height: 25px;
+            background-color: #e63946; border-radius: 4px; z-index: 2; transition: all 0.5s ease;
         }
 
-        /* Efek Buka Kado */
-        .open .box-lid {
-            transform: translateY(-100px) rotate(-15deg);
-            opacity: 0;
-        }
+        .open .box-lid { transform: translateY(-100px) rotate(-15deg); opacity: 0; }
+        .open .gift-box { transform: scale(0.5); opacity: 0; }
 
-        .open .gift-box {
-            transform: scale(0.5);
-            opacity: 0;
-        }
-
-        /* Konten Pesan Malam */
-        .content {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-
+        .content { display: none; opacity: 0; transition: opacity 0.8s ease; }
+        
         .cake-container {
-            position: relative;
-            font-size: 70px;
-            margin-bottom: 20px;
-            display: inline-block;
+            position: relative; font-size: 80px; margin-bottom: 20px; display: inline-block;
         }
-
-        /* Animasi Api Lilin */
         .cake-container::before {
-            content: '🔥'; /* Emoji api lilin */
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 30px;
-            color: var(--candle-fire);
-            animation: flicker 1.5s infinite;
+            content: '🔥'; position: absolute; top: -15px; left: 50%;
+            transform: translateX(-50%); font-size: 30px;
+            animation: flicker 1s infinite alternate;
         }
 
         @keyframes flicker {
-            0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
-            50% { opacity: 0.7; transform: translateX(-50%) scale(0.9); }
+            from { opacity: 0.8; transform: translateX(-50%) scale(1); filter: drop-shadow(0 0 5px gold); }
+            to { opacity: 1; transform: translateX(-50%) scale(1.1); filter: drop-shadow(0 0 15px orange); }
         }
 
-        h1 {
-            font-size: 1.6rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
+        h1 { font-size: 1.8rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        p { color: #e0e0e0; font-size: 1.1rem; }
 
-        p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #ccc; /* Teks abu-abu muda supaya nggak terlalu terang */
-            margin-bottom: 25px;
-        }
-
-        /* Tombol WhatsApp (Masih sama) */
         .wa-btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #25d366;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-            transition: transform 0.2s;
-        }
-
-        .wa-btn:active {
-            transform: scale(0.95);
-        }
-
-        .hint {
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: #888; /* Teks petunjuk lebih gelap */
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: inline-block; padding: 12px 28px; background-color: #25d366;
+            color: white; text-decoration: none; border-radius: 50px;
+            font-weight: bold; margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
         }
     </style>
 </head>
 <body>
-
+    <div class="stars"></div>
     <div class="container" onclick="openGift()">
         <div id="wrapper">
             <div class="box-lid"></div>
             <div class="gift-box"></div>
-            <p class="hint">Tap to open</p>
+            <p style="font-size: 0.8rem; color: #888; margin-top: 20px;">TAP UNTUK BUKA</p>
         </div>
         
         <div class="content" id="messageContent">
             <div class="cake-container">🎂</div>
             <h1>Slamat kepala dua, Bul!</h1>
-            <p>
-                Dah legal nih sekarang. <br>
-                Ditunggu minimal sakura lah ya.
-            </p>
-            <a href="https://wa.me/6281389295689?text=siap%20pir!" class="wa-btn">
-                Bales di sini
-            </a>
+            <p>Dah legal nih sekarang. <br> Ditunggu minimal sakura lah ya.</p>
+            <a href="https://wa.me/6281389295689?text=siap%20pir!" class="wa-btn">Bales di sini</a>
         </div>
     </div>
 
@@ -185,19 +103,14 @@
         function openGift() {
             const wrapper = document.getElementById('wrapper');
             const content = document.getElementById('messageContent');
-            
-            // Jalankan animasi buka
             wrapper.classList.add('open');
-            
-            // Sembunyikan kado dan munculkan pesan
             setTimeout(() => {
                 wrapper.style.display = 'none';
                 content.style.display = 'block';
-                setTimeout(() => {
-                    content.style.opacity = '1';
-                }, 50);
+                setTimeout(() => { content.style.opacity = '1'; }, 50);
             }, 500);
         }
     </script>
 </body>
 </html>
+
